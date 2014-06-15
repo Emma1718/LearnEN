@@ -1,0 +1,76 @@
+@import "addons.scss";
+@import "example.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in pubmedsearchengine.scss */
+.example {
+  @include addons;
+  @include example;
+  
+  
+    .main-view {
+    background-color: #E6E6F0;
+    vertical-align: middle-text;
+    }
+    .v-label-title{
+		font-size: 30px;
+		font-weight: bold;
+		line-height: normal;
+		color: white;
+		background-color: #000066;
+		vertical-align: middle;
+			}
+	
+div .v-button:not(.link), button.v-button.v-state-default, .v-button.v-state-default {
+	font-size: 12px !important;
+	background: #000066 !important;
+	color: #fff !important;
+	-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
+	-webkit-box-shadow: 0 0 0 0 #000 !important;
+	box-shadow: 0 0 0 0 #000 !important;
+	-webkit-transition: background 0.5s ease;
+	-moz-transition: background 0.5s ease;
+	-ms-transition: background 0.5s ease;
+	-o-transition: background 0.5s ease;
+	transition: background 0.5s ease;
+	border-style: groove;
+	border-color:red;
+}
+
+div .v-button:not(.link) .v-button-wrap .v-button-caption {
+	font-size: 12px !important;
+	color: #fff !important;
+	padding: 3px !important;
+}
+
+div .v-button:not(.link) .v-button-wrap {
+	background-image: none !important;
+}
+
+div .v-button.inline-button, button.v-button.v-state-default.inline-button, .v-button.v-state-default.inline-button {
+	display: inline-block;
+	top: -1px;
+	padding: 2px 0 1px !important;
+}
+
+div .v-button:not(.link):hover, .v-button:active, button.v-pressed, button.v-button.v-state-hover, .v-button.v-state-hover, .v-button.v-state-active, .v-button.v-state-focus {
+	background: red !important;
+	border-color: #000066;
+	cursor: pointer;
+	-webkit-transition: background 0.5s ease;
+	-moz-transition: background 0.5s ease;
+	-ms-transition: background 0.5s ease;
+	-o-transition: background 0.5s ease;
+	transition: background 0.5s ease;
+}
+
+div .v-button:not(.link), .v-button span, button.v-button.v-state-default span, .v-button.v-state-default span {
+	text-shadow: none !important;
+	font-weight: 400 !important;
+}
+}
+
+
+
+
