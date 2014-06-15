@@ -21,7 +21,7 @@ public class LoginView extends AbstractView {
     protected void initFields() {
         vl = new VerticalLayout();
         emailTF = new TextField("Login");
-        passwordTF = new PasswordField("Has�o");
+        passwordTF = new PasswordField("Hasło");
         submit = new Button("Zaloguj");
     }
 
@@ -29,6 +29,8 @@ public class LoginView extends AbstractView {
     protected void initView() {
 
         setCompositionRoot(vl);
+        vl.setMargin(true);
+        vl.setSpacing(true);
         vl.addComponent(emailTF);
         vl.addComponent(passwordTF);
         vl.addComponent(submit);
