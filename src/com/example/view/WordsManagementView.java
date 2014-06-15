@@ -71,8 +71,8 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
             editorFields.bind(field, fieldName);
         }
         
-        box = new ComboBox("list name");
-        box.setInputPrompt("List name");
+        box = new ComboBox("Nazwa listy");
+        box.setInputPrompt("Nazwa listy");
         box.setTextInputAllowed(true);
         box.setNewItemsAllowed(true);
               
