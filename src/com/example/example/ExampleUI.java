@@ -34,7 +34,7 @@ public class ExampleUI extends UI {
     private LeftPanel leftPanel = new LeftPanel();
     private VerticalLayout changableView = new VerticalLayout();
     private VerticalLayout root = new VerticalLayout();
-    public static String DB_URL = "jdbc:sqlite:C:\\Users\\Paulina\\Dropbox\\Projekt\\DATABASE\\DB_LEARNEN.db";
+    public static String DB_URL = "jdbc:sqlite:DB_LEARNEN.db";
 public static String LOGGED_USER = "logged_user";
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = ExampleUI.class)
