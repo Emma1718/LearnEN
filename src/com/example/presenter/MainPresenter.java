@@ -3,7 +3,7 @@ package com.example.presenter;
 import com.example.example.ExampleUI;
 import com.example.model.RegisterAndLoginModel;
 import com.example.model.WordsManagementModel;
-import com.example.view.IRegisterFormView;
+import com.example.view.LearningView;
 import com.example.view.LoginView;
 import com.example.view.MainView;
 import com.example.view.RegisterFormView;
@@ -29,7 +29,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     public void onLogin(String user) {
         view.changeLoginLayout(false);
         view.setLoggedUser(user);
-        view.setChangableLayout(null);
+        view.setChangableLayout(new LearningView());
     }
 
     public void loginClickEvent() {
@@ -48,6 +48,9 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     public void learnClickEvent() {
         if (VaadinSession.getCurrent().getAttribute(ExampleUI.LOGGED_USER) == null) {
             createLoginForm("Aby kontynuować musisz się zalogować");
+        } else {
+            LearningView learningView = new LearningView(); 
+            view.setChangableLayout(learningView);
         }
 
     }

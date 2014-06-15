@@ -3,6 +3,8 @@ package com.example.view;
 import java.util.ArrayList;
 
 import com.example.presenter.WordsManagementPresenter;
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -33,11 +35,11 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
     private IndexedContainer allWords;// = new IndexedContainer();
 
     private boolean newRecord;
+    private ComboBox box;
 
     // private ArrayList<ViewInterfaceListener> listeners = new
     // ArrayList<ViewInterfaceListener>();
 
-    ComboBox wordsList;// = new ComboBox();
 
     public void initLayout() {
         HorizontalSplitPanel hsp = new HorizontalSplitPanel();
@@ -59,19 +61,35 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
 
     }
 
-    public void initEditor(Object[] fieldNames) {
+    public void initEditor(Object[] fieldNames, Container listsNames) {
 
         for (Object fieldName : fieldNames) {
+        	
             TextField field = new TextField(fieldName.toString());
             editorLayout.addComponent(field);
             field.setWidth("80%");
             editorFields.bind(field, fieldName);
         }
+        
+        box = new ComboBox("list name");
+        box.setInputPrompt("List name");
+        box.setTextInputAllowed(true);
+        box.setNewItemsAllowed(true);
+              
+        for (Object itemId: listsNames.getItemIds()){
+        	Item item = listsNames.getItem(itemId);
+        	box.addItem(item);
+        }
+          
+        editorLayout.addComponent(box);
+   
 
         editorLayout.addComponent(deleteButton);
         editorLayout.addComponent(okButton);
         editorFields.setBuffered(false);
     }
+    
+  
 
     public void initButtons() {
         newButton.addClickListener(new ClickListener() {
@@ -99,9 +117,9 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
                                 .getValue().toString(),
                         wordsTable.getContainerProperty(wordId, "ANG")
                                 .getValue().toString(),
-                        Integer.parseInt(wordsTable
-                                .getContainerProperty(wordId, "LIST_ID")
-                                .getValue().toString()));
+                        wordsTable
+                                .getContainerProperty(wordId, "LIST_NAME")
+                                .getValue().toString());
                 selectableTable(true);
 
             }
@@ -141,6 +159,8 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
                 Object wordId = wordsTable.getValue();
                 if (wordId != null) {
                     editorFields.setItemDataSource(wordsTable.getItem(wordId));
+                    
+                    
                     editorLayout.setVisible(true);
                 }
 
@@ -148,11 +168,6 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
         });
     }
 
-    // @Override
-    // public void addListener(ViewInterfaceListener listener) {
-    // listeners.add(listener);
-    //
-    // }
 
     public void selectableTable(boolean select) {
         wordsTable.setSelectable(select);
@@ -182,8 +197,6 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
         editorFields = new FieldGroup();
         bottomLeftLayout = new HorizontalLayout();
         allWords = new IndexedContainer();
-
-        wordsList = new ComboBox();
 
     }
 

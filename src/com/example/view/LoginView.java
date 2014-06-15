@@ -1,6 +1,7 @@
 package com.example.view;
 
 import com.example.presenter.LoginPresenter;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -28,7 +29,8 @@ public class LoginView extends AbstractView<LoginPresenter> {
         passwordTF = new PasswordField("Hasło");
         submit = new Button("Zaloguj");
         regLabel = new Label();
-regLabel.setStyleName("register");
+        regLabel.setStyleName("register");
+        submit.setClickShortcut(KeyCode.ENTER);
         submit.addClickListener(new ClickListener() {
 
             @Override

@@ -23,7 +23,7 @@ public class WordsManagementPresenter extends AbstractPresenter<WordsManagementV
             System.out.println(model.getWordsContainer().size());
             
             view.initTable(model.getWordsContainer(),model.getColList());
-            view.initEditor(model.getColList());
+            view.initEditor(model.getColList(), model.getListsNames());
             view.setAllWords(model.getWordsContainer());
     }
 
@@ -46,8 +46,8 @@ public class WordsManagementPresenter extends AbstractPresenter<WordsManagementV
     }
 
     
-    public void updateButtonClick(Object i, String nat, String tans, int l_id) {
-            model.updateRecord(i, nat, tans, l_id);
+    public void updateButtonClick(Object i, String nat, String tans, String l_name) {
+            model.updateRecord(i, nat, tans, l_name);
             view.setAllWords(model.getWordsContainer());
             view.editVisibility(false);
             

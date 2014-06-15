@@ -16,11 +16,16 @@ public class RegisterAndLoginModel {
     Connection connection;
 
 
-    public void registerUser(String name, String surname, String email,
+    public boolean registerUser(String name, String surname, String email,
             String passwd) throws SQLException {
         initConnection();
-        PreparedStatement pstmt = connection
-                .prepareStatement(
+        PreparedStatement stmt = connection.prepareStatement("select count(*) from TAB_USERS where MAIL = ? ");
+        stmt.setString(1, email);
+        ResultSet rs = stmt.executeQuery();
+        if(rs.getInt(1) > 0) {
+           return false;
+        }
+                 PreparedStatement pstmt = connection.prepareStatement(
                         "insert into TAB_USERS(NAME, SURNAME, MAIL, PASSWD) values(?,?,?,?)",
                         Statement.RETURN_GENERATED_KEYS);
         pstmt.setString(1, name);
@@ -30,6 +35,7 @@ public class RegisterAndLoginModel {
 
         pstmt.executeUpdate();
         connection.close();
+        return true;
         
     }
 
@@ -52,6 +58,14 @@ public class RegisterAndLoginModel {
     }
     
     private void initConnection() {
+        String driver = "org.sqlite.JDBC";
+        Connection conn;
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            Notification.show("JDBC Driver Not Found");
+            e.printStackTrace();
+        }
         try {
             connection = DriverManager.getConnection(ExampleUI.DB_URL);
         } catch (SQLException e) {

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.example.example.ExampleUI;
+import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Notification;
@@ -15,21 +16,31 @@ import com.vaadin.ui.Notification;
 public class WordsManagementModel {
         
         
-        private Object[] colList = new Object[] {"ID", "POL", "ANG", "LIST_ID"};
+        private Object[] colList = new Object[] {"POL", "ANG", "LIST_NAME"};
+        private IndexedContainer listsNames;
         
         private Connection conn;
         private IndexedContainer wordsContainer;
         
         
         public WordsManagementModel(){
-//            try {
-//                conn = DriverManager.getConnection(ExampleUI.DB_URL);
-//            } catch (SQLException e) {
-//                Notification.show("Problem with connection to database!");
-//                e.printStackTrace();
-//                System.exit(-1);
-//            }                dataToContainer();
-//                                
+            try {
+                conn = DriverManager.getConnection(ExampleUI.DB_URL);
+            } catch (SQLException e) {
+                Notification.show("Problem with connection to database!");
+                e.printStackTrace();
+                System.exit(-1);
+            }                
+            
+        //    deleteTable();
+        //    createTable();
+       //     insertListRecord("anim");
+        //    insertListRecord("flow");
+            dataToContainer();
+            //insertRecord();
+            
+            //dataToContainer();
+                                
         }
         
 /*
@@ -44,10 +55,10 @@ public class WordsManagementModel {
                         getWordsContainer().addContainerProperty("ID", Integer.class,0);
                         getWordsContainer().addContainerProperty("POL", String.class, "");
                         getWordsContainer().addContainerProperty("ANG",String.class,"");
-                        getWordsContainer().addContainerProperty("LIST_ID", Integer.class, 0);
+                        getWordsContainer().addContainerProperty("LIST_NAME", String.class, "");
                         
                         stmt = getConn().createStatement();
-                        String sql = "SELECT * FROM TAB_WORDS";
+                        String sql = "SELECT TW.ID as ID, POL, ANG, LIST_NAME FROM TAB_WORDS TW JOIN TAB_LISTS TL ON TW.LIST_ID = TL.ID";
                         ResultSet rs = stmt.executeQuery(sql);
                         
                         
@@ -57,7 +68,7 @@ public class WordsManagementModel {
                                 getWordsContainer().getContainerProperty(id, "ID").setValue(rs.getInt("ID"));
                                 getWordsContainer().getContainerProperty(id, "POL").setValue(rs.getString("POL"));
                                 getWordsContainer().getContainerProperty(id, "ANG").setValue(rs.getString("ANG"));
-                                getWordsContainer().getContainerProperty(id, "LIST_ID").setValue(rs.getInt("LIST_ID"));
+                                getWordsContainer().getContainerProperty(id, "LIST_NAME").setValue(rs.getString("LIST_NAME"));
                                 
                         }
                         
@@ -70,6 +81,39 @@ public class WordsManagementModel {
                 }
                 System.out.println("Base was loaded to container");
         }
+        
+        
+        public int insertListRecord(String list_name){
+        	Statement stmt = null;
+        	try{
+        		String sql;
+        		int l_id;
+        		stmt=getConn().createStatement();
+        		sql = "SELECT MAX(ID)+1 AS i FROM TAB_LISTS;";
+        		ResultSet rs = stmt.executeQuery(sql);
+        		l_id= rs.getInt("i");
+        		System.out.println(l_id);
+        		sql = "INSERT INTO TAB_LISTS(ID,LIST_NAME)" + "VALUES(?,?)";
+        		PreparedStatement pstmt = getConn().prepareStatement(sql);
+        		
+        		pstmt.setInt(1, l_id);
+        		pstmt.setString(2, list_name);
+        		pstmt.addBatch();
+        		
+        		   int[] updateCounts = pstmt.executeBatch();
+                   pstmt.close();
+                   System.out.println(updateCounts);
+                   System.out.println("Record (LIST) was inserted successfully");
+                   return updateCounts[0];
+                              
+           }
+           catch(Exception e){
+                   System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                   return 0;
+        	}
+        }
+        
+        
         
         public int insertRecord(){
                 Statement stmt = null;
@@ -109,8 +153,9 @@ public class WordsManagementModel {
         }
         
         
-        public int updateRecord(Object i, String nat, String tran, int l_id){
+        public int updateRecord(Object i, String nat, String tran, String l_name){
                 int[] updateCounts;
+                Statement stmt;
                 try{
                         int id;
                         Item itemToUpdate = getWordsContainer().getItem(i);
@@ -123,7 +168,19 @@ public class WordsManagementModel {
                         PreparedStatement pstmt = getConn().prepareStatement(sql);
                         pstmt.setString(1, nat);
                         pstmt.setString(2, tran);
-                        pstmt.setInt(3, l_id);
+                        
+                        
+                        
+                        String sql2 = "SELECT ID FROM TAB_LISTS WHERE LIST_NAME=?";
+                        PreparedStatement pstmt2 = getConn().prepareStatement(sql2);
+                        pstmt2.setString(1, l_name);
+                        ResultSet rs = pstmt2.executeQuery(sql2);
+                        
+                        pstmt.setInt(3, rs.getInt("ID"));
+                        
+                        rs.close();
+                        pstmt2.close();
+                 
                         pstmt.setInt(4, id);
                         pstmt.addBatch();
                         
@@ -174,18 +231,18 @@ public class WordsManagementModel {
                 Statement stmt = null;
                 try {
                         stmt = getConn().createStatement();
-                        String  sql = "SELECT * FROM TAB_WORDS";
+                        String  sql = "SELECT * FROM TAB_WORDS INNER JOIN TAB_LISTS USING (LIST_ID)";
                         ResultSet rs = stmt.executeQuery(sql);
                         while(rs.next()){
                                 int id = rs.getInt("ID");
                                 String nat = rs.getString("POL");
                                 String trans = rs.getString("ANG");
-                                int l_id = rs.getInt("LIST_ID");
+                                String l_name = rs.getString("LIST_NAME");
                                 
                                 System.out.println("ID = " + id);
                                 System.out.println("POL = " + nat);
                                 System.out.println("ANG = " + trans);
-                                System.out.println("LIST_ID = " + l_id);
+                                System.out.println("LIST_NAME = " + l_name);
                                 
                         }
                         rs.close();
@@ -206,7 +263,9 @@ public class WordsManagementModel {
                         getWordsContainer().getContainerProperty(id, "ID").setValue(in_id);
                         getWordsContainer().getContainerProperty(id, "POL").setValue("POL word");
                         getWordsContainer().getContainerProperty(id,"ANG").setValue("ANG word");
-                        getWordsContainer().getContainerProperty(id, "LIST_ID").setValue(0);
+                        
+                        
+                        getWordsContainer().getContainerProperty(id, "LIST_NAME").setValue("List name");
                         
                         System.out.println("Record was added to container");
                         
@@ -222,7 +281,12 @@ public class WordsManagementModel {
                 try {
                         stmt = getConn().createStatement();
                         String sql = "DROP TABLE TAB_WORDS ";
+                      
                         stmt.executeUpdate(sql);
+                        String sql2 = "DROP TABLE TAB_LISTS";
+                        stmt.executeUpdate(sql2);
+                        
+                        		
                 } catch (SQLException se) {
                         se.printStackTrace();
                 }
@@ -238,6 +302,12 @@ public class WordsManagementModel {
                                         + " ANG VARCHAR(255) NOT NULL, "
                                         + " LIST_ID INTEGER, " + "PRIMARY KEY (ID))";
                         stmt.executeUpdate(sql);
+                        
+                        String sql2 = "CREATE TABLE TAB_LISTS" + "(LIST_ID INTEGER NOT NULL,"
+                        		+ "LIST_NAME VARCHAR(255) NOT NULL, "
+                        		+ "PRIMARY KEY (LIST_ID))";
+                        
+                        stmt.executeUpdate(sql2);    
                         stmt.close();
                 } catch (Exception e) {
                         System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -268,6 +338,36 @@ public class WordsManagementModel {
         public Object[] getColList(){
                 return colList;
         }
+        
+        public Container getListsNames(){
+
+        	Statement stmt;
+        	try{
+        		stmt = getConn().createStatement();
+        		setListsNames(new IndexedContainer());
+            	listsNames.addContainerProperty("LIST_NAME", String.class, "");
+        		
+            	String  sql = "SELECT * FROM TAB_LISTS";
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()){
+                	Object id = listsNames.addItem();
+                	listsNames.getContainerProperty(id, "LIST_NAME").setValue(rs.getString("LIST_NAME"));
+                }
+                rs.close();
+                stmt.close();
+        	}catch(Exception e){
+        		 System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                 System.exit(0);
+        	}
+        	
+     	   	
+       return listsNames;
+        }
+
+        
+		private void setListsNames(IndexedContainer listsNames) {
+			this.listsNames = listsNames;
+		}
         
 
 }

@@ -9,6 +9,7 @@ import com.vaadin.data.Validatable;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
@@ -21,8 +22,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 
-public class RegisterFormView extends AbstractView<RegisterFormPresenter>
-        implements IRegisterFormView {
+public class RegisterFormView extends AbstractView<RegisterFormPresenter> {
     private VerticalLayout vl;
 
     private TextField nameTF;
@@ -41,6 +41,7 @@ public class RegisterFormView extends AbstractView<RegisterFormPresenter>
         passwordTF = new PasswordField("Hasło");
         confirmpassTF = new PasswordField("Potwierdź Hasło");
         submit = new Button("Potwierdź");
+        submit.setClickShortcut(KeyCode.ENTER);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class RegisterFormView extends AbstractView<RegisterFormPresenter>
         fieldList.add(emailTF);
     }
 
-    @Override
+    
     public boolean isValid() {
         for (Validatable c : fieldList) {
             if (!c.isValid()) {
@@ -93,29 +94,29 @@ public class RegisterFormView extends AbstractView<RegisterFormPresenter>
         return true;
     }
 
-    @Override
+    
     public String getName() {
         // TODO Auto-generated method stub
         return nameTF.getValue();
     }
 
-    @Override
+    
     public String getSurname() {
         // TODO Auto-generated method stub
         return surnameTF.getValue();
     }
 
-    @Override
+    
     public String getEmail() {
         return emailTF.getValue();
     }
 
-    @Override
+    
     public String getPassword() {
         return passwordTF.getValue();
     }
 
-    @Override
+    
     public String getConfirmPassword() {
         return confirmpassTF.getValue();
     }
