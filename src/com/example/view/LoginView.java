@@ -28,7 +28,7 @@ public class LoginView extends AbstractView<LoginPresenter> {
         passwordTF = new PasswordField("Hasło");
         submit = new Button("Zaloguj");
         regLabel = new Label();
-
+regLabel.setStyleName("register");
         submit.addClickListener(new ClickListener() {
 
             @Override

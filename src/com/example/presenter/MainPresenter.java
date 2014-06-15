@@ -15,6 +15,13 @@ import com.vaadin.ui.UI;
 
 public class MainPresenter extends AbstractPresenter<MainView> {
 
+    @Override
+    public void setView(MainView view) {
+        // TODO Auto-generated method stub
+        super.setView(view);
+        createLoginForm("Aby rozpocząć musisz się zalogować");
+    }
+
     public void onRegister() {
         createLoginForm("Rejestracja przebiegła prawidłowo. Teraz możesz się zalogować");
     }
@@ -34,34 +41,34 @@ public class MainPresenter extends AbstractPresenter<MainView> {
         view.setChangableLayout(registerView);
         RegisterFormPresenter presenter = new RegisterFormPresenter();
         registerView.setPresenter(presenter);
-        System.out.println("Set RegisterView");
         presenter.setView(registerView);
         presenter.setParentPresenter(this);
     }
 
     public void learnClickEvent() {
         if (VaadinSession.getCurrent().getAttribute(ExampleUI.LOGGED_USER) == null) {
-            loginClickEvent();
+            createLoginForm("Aby kontynuować musisz się zalogować");
         }
 
     }
 
     public void manageClickEvent() {
-//        if (VaadinSession.getCurrent().getAttribute(ExampleUI.LOGGED_USER) == null) {
-//            loginClickEvent();
-//        } 
-        
-        WordsManagementView managementView = new WordsManagementView();
-        WordsManagementPresenter managementPresenter = new WordsManagementPresenter(new WordsManagementModel(), managementView);
-        managementView.setPresenter(managementPresenter);
-        view.setChangableLayout(managementView);
+        if (VaadinSession.getCurrent().getAttribute(ExampleUI.LOGGED_USER) == null) {
+            createLoginForm("Aby kontynuować musisz się zalogować");
+        } else {
+            WordsManagementView managementView = new WordsManagementView();
+            WordsManagementPresenter managementPresenter = new WordsManagementPresenter(
+                    new WordsManagementModel(), managementView);
+            managementView.setPresenter(managementPresenter);
+            view.setChangableLayout(managementView);
+        }
     }
 
     public void logoutClickEvent() {
-        VaadinSession.getCurrent().setAttribute("userID", null);
+        VaadinSession.getCurrent().setAttribute(ExampleUI.LOGGED_USER, null);
         view.changeLoginLayout(true);
         view.setLoggedUser("");
-        createLoginForm("Zostałeś wylogowany. Możesz zalogowa się ponownie");
+        createLoginForm("Zostałeś wylogowany. Możesz zalogować się ponownie");
     }
 
     private void createLoginForm(String caption) {

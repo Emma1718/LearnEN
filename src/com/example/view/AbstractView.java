@@ -7,8 +7,8 @@ import com.vaadin.ui.CustomComponent;
 public abstract class AbstractView<P extends AbstractPresenter> extends CustomComponent{
     protected P presenter;
     
-    public void setPresenter(P gp) {
-       presenter = gp;
+    public void setPresenter(P p) {
+       presenter = p;
     }
     
     public AbstractView() {

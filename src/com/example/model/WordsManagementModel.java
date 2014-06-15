@@ -22,14 +22,14 @@ public class WordsManagementModel {
         
         
         public WordsManagementModel(){
-            try {
-                conn = DriverManager.getConnection(ExampleUI.DB_URL);
-            } catch (SQLException e) {
-                Notification.show("Problem with connection to database!");
-                e.printStackTrace();
-                System.exit(-1);
-            }                dataToContainer();
-                                
+//            try {
+//                conn = DriverManager.getConnection(ExampleUI.DB_URL);
+//            } catch (SQLException e) {
+//                Notification.show("Problem with connection to database!");
+//                e.printStackTrace();
+//                System.exit(-1);
+//            }                dataToContainer();
+//                                
         }
         
 /*

@@ -15,18 +15,10 @@ public class RegisterAndLoginModel {
 
     Connection connection;
 
-    public RegisterAndLoginModel() {
-        try {
-            connection = DriverManager.getConnection(ExampleUI.DB_URL);
-        } catch (SQLException e) {
-            Notification.show("Problem with connection to database!");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-    }
 
     public void registerUser(String name, String surname, String email,
             String passwd) throws SQLException {
+        initConnection();
         PreparedStatement pstmt = connection
                 .prepareStatement(
                         "insert into TAB_USERS(NAME, SURNAME, MAIL, PASSWD) values(?,?,?,?)",
@@ -37,10 +29,13 @@ public class RegisterAndLoginModel {
         pstmt.setString(4, passwd);
 
         pstmt.executeUpdate();
+        connection.close();
+        
     }
 
     public String loginUser(String email, String passwd) throws SQLException {
-        PreparedStatement pstmt = connection
+       initConnection();
+       PreparedStatement pstmt = connection
                 .prepareStatement("select count(*), ID from TAB_USERS where MAIL = ? and PASSWD = ?");
         pstmt.setString(1, email);
         pstmt.setString(2, passwd);
@@ -53,6 +48,16 @@ public class RegisterAndLoginModel {
         } else {
             System.out.println(rs.getInt(1));
             return "";
+        }
+    }
+    
+    private void initConnection() {
+        try {
+            connection = DriverManager.getConnection(ExampleUI.DB_URL);
+        } catch (SQLException e) {
+            Notification.show("Problem with connection to database!");
+            e.printStackTrace();
+            System.exit(-1);
         }
     }
 }

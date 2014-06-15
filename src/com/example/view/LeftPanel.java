@@ -37,6 +37,8 @@ public class LeftPanel extends AbstractView<MainPresenter> {
         loginBtn = new Button("Zaloguj się");
         registerBtn = new Button("Zarejestruj się");
         logoutBtn = new Button("Wyloguj");
+        
+        loggedAs.setStyleName("logged");
     }
 
     public void setLoggedAs(String userName) {

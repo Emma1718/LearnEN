@@ -19,17 +19,31 @@
 		color: white;
 		background-color: #00003D;
 		vertical-align: middle;
-			}
- .v-label-footer{
-		font-size: 23px;
-		font-style: italic;
-		font-family: comic-sans;
+  }
+ .v-label-register{
+		font-size: 15px;
+		line-height: normal;
+		color: #00003D;
+		vertical-align: middle-text;
+  }
+	.v-label-title2{
+		font-size: 15px;
 		line-height: normal;
 		color: white;
 		background-color: #00003D;
-		vertical-align: middle;
+		vertical-align: middle-text;
+		font-style: italic;
+		horizontal-align: right;
+  }		
+	.v-label-logged{
+		font-size: 15px;
+		line-height: normal;
+		color: red;
+		vertical-align: middle-text;
 			}
-	
+.v-horizontallayout-topbar {
+		background-color: #00003D;
+}
 div .v-button:not(.link), button.v-button.v-state-default, .v-button.v-state-default {
 	font-size: 12px !important;
 	background: #000066 !important;
@@ -78,11 +92,6 @@ div .v-button:not(.link), .v-button span, button.v-button.v-state-default span, 
 	text-shadow: none !important;
 	font-weight: 400 !important;
 }
-
-
-
-
-
 
 }
 
