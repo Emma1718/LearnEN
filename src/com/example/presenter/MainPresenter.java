@@ -2,10 +2,12 @@ package com.example.presenter;
 
 import com.example.example.ExampleUI;
 import com.example.model.RegisterAndLoginModel;
+import com.example.model.WordsManagementModel;
 import com.example.view.IRegisterFormView;
 import com.example.view.LoginView;
 import com.example.view.MainView;
 import com.example.view.RegisterFormView;
+import com.example.view.WordsManagementView;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
@@ -45,9 +47,14 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     }
 
     public void manageClickEvent() {
-        if (VaadinSession.getCurrent().getAttribute(ExampleUI.LOGGED_USER) == null) {
-            loginClickEvent();
-        }
+//        if (VaadinSession.getCurrent().getAttribute(ExampleUI.LOGGED_USER) == null) {
+//            loginClickEvent();
+//        } 
+        
+        WordsManagementView managementView = new WordsManagementView();
+        WordsManagementPresenter managementPresenter = new WordsManagementPresenter(new WordsManagementModel(), managementView);
+        managementView.setPresenter(managementPresenter);
+        view.setChangableLayout(managementView);
     }
 
     public void logoutClickEvent() {

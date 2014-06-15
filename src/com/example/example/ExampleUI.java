@@ -67,10 +67,10 @@ public static String LOGGED_USER = "logged_user";
                 "Interaktywny nauczyciel angielskich słówek",
                 ContentMode.HTML);
         footLabel.setStyleName("footer");
-        footLabel.setHeight("50px");
+        footLabel.setHeight("30px");
         foot.addComponent(footLabel);
         foot.setWidth("100%");
-        foot.setHeight("50px");
+        foot.setHeight("30px");
         root.addComponent(foot);
         setContent(root);
 

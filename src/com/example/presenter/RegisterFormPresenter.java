@@ -15,11 +15,15 @@ import com.vaadin.ui.UI;
 
 public class RegisterFormPresenter extends AbstractPresenter<RegisterFormView> {
 
-    private RegisterAndLoginModel model = new RegisterAndLoginModel();;
-    private MainPresenter parentPresenter = new MainPresenter();
+    private RegisterAndLoginModel model;
+    private MainPresenter parentPresenter;
 
     public void setParentPresenter(MainPresenter p) {
         this.parentPresenter = p;
+    }
+    
+    public RegisterFormPresenter() {
+        
     }
 
     public void confirmRegisterForm() {
