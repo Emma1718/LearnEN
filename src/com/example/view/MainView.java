@@ -44,6 +44,10 @@ public class MainView extends AbstractView<MainPresenter> {
         changableView = new VerticalLayout();
 
     }
+    
+    public void setLoggedUser(String user) {
+        leftPanel.setLoggedAs(user);
+    }
 
     @Override
     protected void initView() {
@@ -69,17 +73,20 @@ public class MainView extends AbstractView<MainPresenter> {
     @Override
     public void setPresenter(MainPresenter gp) {
         super.setPresenter(gp);
-        if(presenter != null) {
-            System.out.println("Not null");
-            leftPanel.setPresenter(gp);
-        }
+
+        leftPanel.setPresenter(gp);
 
         leftPanel.addListeners();
     }
 
     public void setChangableLayout(AbstractView view) {
         changableView.removeAllComponents();
-        changableView.addComponent(view);
+        if(view != null) 
+            changableView.addComponent(view);
+    }
+    
+    public void changeLoginLayout(boolean b) {
+        leftPanel.changeLoginLayout(b);
     }
 
 }

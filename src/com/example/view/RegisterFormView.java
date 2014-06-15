@@ -21,7 +21,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 
-public class RegisterFormView extends AbstractView<RegisterFormPresenter> implements IRegisterFormView {
+public class RegisterFormView extends AbstractView<RegisterFormPresenter>
+        implements IRegisterFormView {
     private VerticalLayout vl;
 
     private TextField nameTF;
@@ -31,7 +32,6 @@ public class RegisterFormView extends AbstractView<RegisterFormPresenter> implem
     private PasswordField confirmpassTF;
     private Button submit;
     private List<Validatable> fieldList;
-
 
     @Override
     protected void initFields() {
@@ -53,7 +53,8 @@ public class RegisterFormView extends AbstractView<RegisterFormPresenter> implem
 
             @Override
             public void buttonClick(ClickEvent event) {
-onSubmitRegisterForm();            }
+                presenter.confirmRegisterForm();
+            }
         });
 
         setCompositionRoot(vl);
@@ -70,9 +71,9 @@ onSubmitRegisterForm();            }
         passwordTF.setRequired(true);
         confirmpassTF.setRequired(true);
         nameTF.addValidator(new RegexpValidator(
-                "[a-zA-ZÄ…Ä™Ä‡ĹşĹĽĂłÄ„Ä�Ä†ĹąĹ» ]{3,30}", "Nieprawidłowe imię"));
+                "[a-zA-ZŻŹĄĘŚĆÓŃŁęółąćźżń]{3,30}", "Nieprawidłowe imię"));
         surnameTF.addValidator(new RegexpValidator(
-                "[a-zA-ZÄ…Ä™Ä‡ĹşĹĽĂłÄ„Ä�Ä†ĹąĹ» ]{3,30}",
+                "[a-zA-ZŻŹĄĘŚĆÓŃŁęółąćźżń]{3,30}",
                 "Nieprawidłowe nazwisko"));
         emailTF.addValidator(new EmailValidator("Niepoprawny e-mail"));
 
@@ -119,17 +120,8 @@ onSubmitRegisterForm();            }
         return confirmpassTF.getValue();
     }
 
-    private void  onSubmitRegisterForm() {
-        if (isValid()) {
-            if (getPassword().equals(getConfirmPassword())) {
-                presenter.confirmRegisterForm();
-            } else {
-                Notification.show("Podane hasła nie są identyczne",
-                        Type.ERROR_MESSAGE);
-            }
-        } else {
-            Notification.show("Niepoprawne dane", Type.ERROR_MESSAGE);
-        }
+    private void onSubmitRegisterForm() {
+
     }
 
 }

@@ -34,7 +34,8 @@ public class ExampleUI extends UI {
     private LeftPanel leftPanel = new LeftPanel();
     private VerticalLayout changableView = new VerticalLayout();
     private VerticalLayout root = new VerticalLayout();
-
+    public static String DB_URL = "jdbc:sqlite:C:\\Users\\Paulina\\Dropbox\\Projekt\\DATABASE\\DB_LEARNEN.db";
+public static String LOGGED_USER = "logged_user";
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = ExampleUI.class)
     public static class Servlet extends VaadinServlet {
@@ -49,7 +50,7 @@ public class ExampleUI extends UI {
         mainPresenter.setView(mainView);
         root.setSizeFull();
         Label titleLabel = new Label(
-                "<font color = 'white'>Learn</font><font color = 'red'>EN</font>",
+                "<font color = 'white'>Learn</font><font color = 'red'>EN</font><font color = 'white'>™</font>",
                 ContentMode.HTML);
         titleLabel.setStyleName("title");
         titleLabel.setHeight("50px");
@@ -68,7 +69,6 @@ public class ExampleUI extends UI {
 
         // mainView.setExpandRatio(splitPanel, 1);
         String driver = "org.sqlite.JDBC";
-        String dbUrl = "jdbc:sqlite:C:\\Users\\Paulina\\Dropbox\\Projekt\\DATABASE\\DB_LEARNEN.db";
         Connection conn;
         try {
             Class.forName(driver);
@@ -77,13 +77,7 @@ public class ExampleUI extends UI {
             e.printStackTrace();
         }
 
-        try {
-            conn = DriverManager.getConnection(dbUrl);
-        } catch (SQLException e) {
-            Notification.show("Problem with connection to database!");
-            e.printStackTrace();
-            System.exit(-1);
-        }
+     
 
     }
 }

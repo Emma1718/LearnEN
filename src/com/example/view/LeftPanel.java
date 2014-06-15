@@ -20,6 +20,8 @@ public class LeftPanel extends AbstractView<MainPresenter> {
     private Button logoutBtn;
     private Button loginBtn;
     private Button registerBtn;
+    VerticalLayout buttonsLayout;
+
 
     private Label loggedAs;
 
@@ -29,41 +31,46 @@ public class LeftPanel extends AbstractView<MainPresenter> {
 
     protected void initFields() {
         mainView = new VerticalLayout();
+        loggedAs = new Label("");
         learnBtn = new Button("Ucz się");
         managementBtn = new Button("Zarządzaj słówkami");
         loginBtn = new Button("Zaloguj się");
         registerBtn = new Button("Zarejestruj się");
         logoutBtn = new Button("Wyloguj");
-        loggedAs = new Label("");
     }
 
     public void setLoggedAs(String userName) {
-        loggedAs.setValue("Zalogowany jako: " + userName);
+        if(!userName.equals("")) {
+            loggedAs.setValue("Zalogowany jako: " + userName);
+        } else {
+            loggedAs.setValue("Wylogowany");
+        }
     }
+
     protected void initView() {
         initFields();
-        VerticalLayout buttonsLayout = new VerticalLayout();
+        buttonsLayout = new VerticalLayout();
         setStyleName("main-view");
 
         setCompositionRoot(mainView);
-      
+
         buttonsLayout.addComponent(learnBtn);
         buttonsLayout.addComponent(managementBtn);
         buttonsLayout.addComponent(registerBtn);
         buttonsLayout.addComponent(loginBtn);
-
+        buttonsLayout.addComponent(logoutBtn);
+        logoutBtn.setVisible(false);
         buttonsLayout.setSpacing(true);
         buttonsLayout.setMargin(true);
         for (int i = 0; i < buttonsLayout.getComponentCount(); i++) {
             buttonsLayout.getComponent(i).setWidth("85%");
             buttonsLayout.setComponentAlignment(buttonsLayout.getComponent(i),
                     Alignment.MIDDLE_CENTER);
-            
+
         }
         mainView.addComponent(loggedAs);
         mainView.addComponent(buttonsLayout);
         mainView.setExpandRatio(buttonsLayout, 1);
-        
 
     }
 
@@ -109,13 +116,23 @@ public class LeftPanel extends AbstractView<MainPresenter> {
         });
     }
 
-    public void hideLogin() {
-        mainView.removeComponent(registerBtn);
-        mainView.removeComponent(loginBtn);
-    }
+    /*true gdy wylogowany*/
+    public void changeLoginLayout(boolean b) {
+        if (b) {
+//            buttonsLayout.addComponent(registerBtn);
+//            buttonsLayout.addComponent(loginBtn);
+            loginBtn.setVisible(true);
+            registerBtn.setVisible(true);
+            logoutBtn.setVisible(false);
+        } else {
+//            buttonsLayout.removeComponent(registerBtn);
+//            buttonsLayout.removeComponent(loginBtn);
+            loginBtn.setVisible(false);
+            registerBtn.setVisible(false);
+            logoutBtn.setVisible(true);
 
-    public void showLogout() {
-        mainView.addComponent(logoutBtn);
+
+        }
     }
 
 }
