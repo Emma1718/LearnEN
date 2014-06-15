@@ -62,12 +62,18 @@ public static String LOGGED_USER = "logged_user";
         mainView.setSizeFull();
         root.addComponent(mainView);
         root.setExpandRatio(mainView, 1);
+        HorizontalLayout foot = new HorizontalLayout();
+        Label footLabel = new Label(
+                "Interaktywny nauczyciel angielskich słówek",
+                ContentMode.HTML);
+        footLabel.setStyleName("footer");
+        footLabel.setHeight("50px");
+        foot.addComponent(footLabel);
+        foot.setWidth("100%");
+        foot.setHeight("50px");
+        root.addComponent(foot);
         setContent(root);
 
-        // leftPanel.setHeight("100%");
-        // changableView.setSizeUndefined();
-
-        // mainView.setExpandRatio(splitPanel, 1);
         String driver = "org.sqlite.JDBC";
         Connection conn;
         try {
