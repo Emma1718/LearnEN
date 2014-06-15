@@ -189,9 +189,9 @@ public class WordsManagementView extends AbstractView<WordsManagementPresenter> 
     protected void initFields() {
 
         wordsTable = new Table();
-        newButton = new Button("New word");
-        deleteButton = new Button("Delete word");
-        okButton = new Button("Confirm");
+        newButton = new Button("Nowe słowo");
+        deleteButton = new Button("Usuń");
+        okButton = new Button("Potwierdź");
 
         editorLayout = new FormLayout();
         editorFields = new FieldGroup();
